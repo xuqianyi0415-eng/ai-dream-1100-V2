@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许倩怡 - AI业务解决方案专家</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-deep: #0a0e1a;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2332;
+            --accent: #06b6d4;
+            --accent2: #8b5cf6;
+            --accent3: #22d3ee;
+            --glow: rgba(6, 182, 212, 0.3);
+            --glow2: rgba(139, 92, 246, 0.3);
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --border: rgba(255,255,255,0.08);
+            --gradient: linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg-deep);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== Particle Canvas ===== */
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        /* ===== Hero ===== */
+        .hero {
+            position: relative; z-index: 1;
+            padding: 100px 0 70px;
+            background: linear-gradient(180deg, rgba(6,182,212,0.08) 0%, transparent 100%);
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 800px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content {
+            display: flex; align-items: center; gap: 48px;
+            position: relative; z-index: 1;
+        }
+        .hero-avatar {
+            width: 160px; height: 200px; border-radius: 16px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 40px var(--glow), 0 0 80px rgba(139,92,246,0.15);
+            animation: pulse-glow 3s ease-in-out infinite;
+            overflow: hidden; padding: 3px;
+        }
+        .hero-avatar img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 13px;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 40px var(--glow), 0 0 80px rgba(139,92,246,0.15); }
+            50% { box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(139,92,246,0.25); }
+        }
+        .hero-info h1 { font-size: 40px; font-weight: 800; letter-spacing: 2px; }
+        .hero-info h1 span {
+            background: var(--gradient); background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: gradient-shift 4s linear infinite;
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        .hero-info .subtitle {
+            font-size: 18px; color: var(--accent3); margin: 8px 0 20px;
+            letter-spacing: 4px; font-weight: 300;
+        }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--text-dim); }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .hero-meta .highlight { color: var(--accent3); font-weight: 600; }
+        /* ===== Capability Pyramid ===== */
+        .capability-pyramid { margin-top: 28px; display: flex; flex-direction: column; gap: 0; }
+        .cap-layer {
+            display: flex; align-items: stretch; gap: 0;
+            position: relative;
+        }
+        .cap-label {
+            width: 72px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; letter-spacing: 2px; writing-mode: vertical-rl;
+            text-orientation: mixed; padding: 12px 0;
+            border-right: 2px solid;
+            position: relative;
+        }
+        .cap-label::after {
+            content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .cap-layer--strategy .cap-label {
+            color: #f59e0b; border-color: rgba(245,158,11,0.4);
+        }
+        .cap-layer--strategy .cap-label::after { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+        .cap-layer--plan .cap-label {
+            color: var(--accent); border-color: rgba(6,182,212,0.4);
+        }
+        .cap-layer--plan .cap-label::after { background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+        .cap-layer--exec .cap-label {
+            color: var(--accent2); border-color: rgba(139,92,246,0.4);
+        }
+        .cap-layer--exec .cap-label::after { background: var(--accent2); box-shadow: 0 0 8px var(--glow2); }
+        .cap-layer--foundation .cap-label {
+            color: #10b981; border-color: rgba(16,185,129,0.4);
+        }
+        .cap-layer--foundation .cap-label::after { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.5); }
+
+        .cap-tags {
+            flex: 1; display: flex; flex-wrap: wrap; gap: 8px;
+            padding: 14px 0 14px 24px; align-items: center;
+        }
+        .cap-layer--strategy .cap-tags .tag {
+            background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24;
+        }
+        .cap-layer--strategy .cap-tags .tag:hover {
+            background: rgba(245,158,11,0.2); box-shadow: 0 0 14px rgba(245,158,11,0.25);
+        }
+        .cap-layer--plan .cap-tags .tag {
+            background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--accent3);
+        }
+        .cap-layer--plan .cap-tags .tag:hover {
+            background: rgba(6,182,212,0.2); box-shadow: 0 0 14px var(--glow);
+        }
+        .cap-layer--exec .cap-tags .tag {
+            background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: #a78bfa;
+        }
+        .cap-layer--exec .cap-tags .tag:hover {
+            background: rgba(139,92,246,0.2); box-shadow: 0 0 14px var(--glow2);
+        }
+        .cap-layer--foundation .cap-tags .tag {
+            background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #34d399;
+        }
+        .cap-layer--foundation .cap-tags .tag:hover {
+            background: rgba(16,185,129,0.2); box-shadow: 0 0 14px rgba(16,185,129,0.25);
+        }
+
+        .cap-connector {
+            width: 72px; flex-shrink: 0; display: flex; justify-content: flex-end;
+            position: relative;
+        }
+        .cap-connector::before {
+            content: ''; position: absolute; right: -1px; top: 0; bottom: 0; width: 2px;
+        }
+        .cap-layer--strategy + .cap-layer--plan .cap-connector::before {
+            background: linear-gradient(180deg, rgba(245,158,11,0.4), rgba(6,182,212,0.4));
+        }
+        .cap-layer--plan + .cap-layer--exec .cap-connector::before {
+            background: linear-gradient(180deg, rgba(6,182,212,0.4), rgba(139,92,246,0.4));
+        }
+        .cap-layer--exec + .cap-layer--foundation .cap-connector::before {
+            background: linear-gradient(180deg, rgba(139,92,246,0.4), rgba(16,185,129,0.4));
+        }
+
+        @media (max-width: 768px) {
+            .cap-label { width: 48px; font-size: 10px; letter-spacing: 1px; }
+            .cap-tags { padding-left: 16px; }
+        }
+        .tag {
+            padding: 6px 18px; border-radius: 20px; font-size: 13px;
+            border: 1px solid transparent; backdrop-filter: blur(8px);
+            transition: all 0.3s;
+        }
+        .tag:hover { transform: translateY(-1px); }
+
+        /* ===== Nav ===== */
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,14,26,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner { display: flex; gap: 32px; padding: 16px 0; }
+        .nav-inner a {
+            color: var(--text-dim); text-decoration: none; font-size: 14px;
+            font-weight: 500; transition: all 0.3s; position: relative; letter-spacing: 1px;
+        }
+        .nav-inner a:hover, .nav-inner a.active { color: var(--accent); }
+        .nav-inner a.active::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+            height: 2px; background: var(--gradient); border-radius: 1px;
+        }
+
+        /* ===== Sections ===== */
+        section { padding: 70px 0; position: relative; z-index: 1; }
+        .section-title {
+            font-size: 26px; font-weight: 700; margin-bottom: 48px;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .section-title::before {
+            content: ''; width: 4px; height: 32px;
+            background: var(--gradient); border-radius: 2px;
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .section-title span { color: var(--text-dim); font-size: 13px; font-weight: 400; letter-spacing: 3px; margin-left: 8px; }
+
+        /* ===== Glass Card ===== */
+        .glass {
+            background: rgba(17,24,39,0.7); backdrop-filter: blur(12px);
+            border: 1px solid var(--border); border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .glass:hover {
+            border-color: rgba(6,182,212,0.3);
+            box-shadow: 0 0 30px rgba(6,182,212,0.08), inset 0 0 30px rgba(6,182,212,0.03);
+        }
+        /* ===== About ===== */
+        .about-card { padding: 36px; font-size: 15px; line-height: 2; }
+        .about-card p + p { margin-top: 12px; }
+        .about-card strong { color: var(--accent3); }
+
+        /* ===== Composite Background ===== */
+        .composite-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .composite-card {
+            padding: 28px 24px; text-align: center; position: relative; overflow: hidden;
+        }
+        .composite-card::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 3px; border-radius: 2px;
+        }
+        .composite-card:nth-child(1)::before { background: #f59e0b; }
+        .composite-card:nth-child(2)::before { background: #ec4899; }
+        .composite-card:nth-child(3)::before { background: var(--accent); }
+        .composite-card:nth-child(4)::before { background: var(--accent2); }
+        .composite-icon { font-size: 32px; margin-bottom: 12px; }
+        .composite-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .composite-from { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; }
+        .composite-value { font-size: 13px; color: var(--accent3); line-height: 1.8; }
+        .composite-fusion {
+            margin-top: 24px; padding: 20px 28px; text-align: center;
+            font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.5px;
+        }
+        .composite-fusion span {
+            background: var(--gradient); background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: gradient-shift 4s linear infinite;
+        }
+        @media (max-width: 768px) {
+            .composite-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .composite-card { padding: 20px 16px; }
+            .composite-fusion { font-size: 14px; padding: 16px 20px; }
+        }
+
+        /* ===== Skills ===== */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .skill-card { padding: 28px; }
+        .skill-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--accent3); }
+        .skill-items { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-item {
+            background: rgba(6,182,212,0.08); color: var(--accent3); padding: 5px 14px;
+            border-radius: 16px; font-size: 12px; font-weight: 500;
+            border: 1px solid rgba(6,182,212,0.15); transition: all 0.3s;
+        }
+        .skill-item:hover { background: rgba(6,182,212,0.15); box-shadow: 0 0 10px rgba(6,182,212,0.15); }
+
+        /* ===== Timeline ===== */
+        .timeline { position: relative; padding-left: 36px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
+            width: 2px; background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+        }
+        .timeline-item { position: relative; margin-bottom: 48px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute; left: -36px; top: 6px; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--bg-deep);
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .timeline-dot::after {
+            content: ''; position: absolute; top: 4px; left: 4px;
+            width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+        }
+        .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .timeline-company { font-size: 20px; font-weight: 700; color: #fff; }
+        .timeline-role { font-size: 14px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+        .timeline-date {
+            font-size: 12px; color: var(--accent3); letter-spacing: 1px;
+            background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2);
+            padding: 4px 14px; border-radius: 12px;
+        }
+        .timeline-desc { color: var(--text-dim); font-size: 14px; }
+        .timeline-desc ul { padding-left: 18px; margin-top: 8px; }
+        .timeline-desc li { margin-bottom: 6px; }
+        .timeline-desc strong { color: var(--text); }
+        .achievements { margin-top: 14px; }
+        .achievements h4 { font-size: 13px; color: var(--accent); margin-bottom: 6px; letter-spacing: 1px; }
+
+        /* ===== Project Cards ===== */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 24px; }
+        .project-card { padding: 32px; position: relative; overflow: hidden; }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--gradient); background-size: 200% auto;
+            animation: gradient-shift 4s linear infinite;
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .project-card:hover::before { opacity: 1; }
+        .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .project-name { font-size: 18px; font-weight: 700; color: #fff; }
+        .project-role { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 2px; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+        .project-tag {
+            background: rgba(139,92,246,0.1); color: var(--accent2); padding: 3px 10px;
+            border-radius: 10px; font-size: 11px; border: 1px solid rgba(139,92,246,0.2);
+            letter-spacing: 0.5px;
+        }
+        .project-desc { font-size: 14px; color: var(--text-dim); }
+        .project-desc ul { padding-left: 18px; margin-top: 8px; }
+        .project-desc li { margin-bottom: 4px; }
+        .project-desc strong { color: var(--text); }
+        .project-result {
+            margin-top: 18px; padding: 18px; border-radius: 12px;
+            background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.15);
+        }
+        .project-result h4 { font-size: 13px; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
+        .project-result ul { padding-left: 18px; }
+        .project-result li { font-size: 13px; color: var(--accent3); margin-bottom: 3px; }
+        /* ===== Education ===== */
+        .edu-card {
+            padding: 28px; margin-bottom: 16px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .edu-school { font-size: 18px; font-weight: 700; color: #fff; }
+        .edu-major { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+
+        /* ===== Footer ===== */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--border);
+            text-align: center; padding: 36px 0; font-size: 13px; color: var(--text-dim);
+        }
+
+        /* ===== Scroll Animations ===== */
+        .fade-up {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .hero { padding: 48px 0 36px; }
+            .hero-content { flex-direction: column; text-align: center; gap: 20px; }
+            .hero-avatar { width: 120px; height: 150px; }
+            .hero-info h1 { font-size: 28px; }
+            .hero-info .subtitle { font-size: 15px; letter-spacing: 2px; }
+            .hero-meta { justify-content: center; font-size: 13px; gap: 10px; }
+            .capability-pyramid { align-items: stretch; }
+            .cap-label { width: 48px; font-size: 10px; letter-spacing: 1px; }
+            .cap-tags { padding-left: 16px; justify-content: center; }
+            .cap-tags .tag { font-size: 12px; padding: 5px 12px; }
+            .nav-inner { overflow-x: auto; white-space: nowrap; gap: 20px; padding: 14px 0; }
+            section { padding: 48px 0; }
+            .section-title { font-size: 20px; margin-bottom: 28px; }
+            .section-title span { display: none; }
+            .about-card { padding: 24px; font-size: 14px; }
+            .skills-grid { grid-template-columns: 1fr; gap: 14px; }
+            .skill-card { padding: 20px; }
+            .timeline { padding-left: 28px; }
+            .timeline-dot { left: -28px; width: 14px; height: 14px; }
+            .timeline-dot::after { top: 3px; left: 3px; width: 4px; height: 4px; }
+            .timeline-header { flex-direction: column; }
+            .timeline-company { font-size: 17px; }
+            .timeline-item { margin-bottom: 36px; }
+            .project-grid { grid-template-columns: 1fr; gap: 16px; }
+            .project-card { padding: 24px; }
+            .project-name { font-size: 16px; }
+            .edu-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="container hero-content">
+        <div class="hero-avatar"><img src="photo.jpg" alt="许倩怡"></div>
+        <div class="hero-info">
+            <h1><span>许倩怡</span></h1>
+            <div class="subtitle">AI 业务解决方案专家 · Forward Deployed Engineer</div>
+            <div class="hero-meta">
+                <span>📍 深圳</span>
+                <span>📱 137-9411-1172</span>
+                <span>📧 892430521@qq.com</span>
+                <span class="highlight">🎓 硕士 · 哈尔滨工业大学</span>
+                <span>💼 8年+行业经验</span>
+            </div>
+            <div class="capability-pyramid">
+                <div class="cap-layer cap-layer--strategy">
+                    <div class="cap-label">洞察</div>
+                    <div class="cap-tags">
+                        <span class="tag">多行业业务深耕</span>
+                        <span class="tag">需求调研与场景判断</span>
+                        <span class="tag">数据就绪度评估</span>
+                    </div>
+                </div>
+                <div class="cap-layer cap-layer--plan">
+                    <div class="cap-label">设计</div>
+                    <div class="cap-tags">
+                        <span class="tag">AI 方案架构（LLM/Agent/RAG）</span>
+                        <span class="tag">PoC 验证与选型决策</span>
+                        <span class="tag">BRD/PRD 输出</span>
+                    </div>
+                </div>
+                <div class="cap-layer cap-layer--exec">
+                    <div class="cap-label">交付</div>
+                    <div class="cap-tags">
+                        <span class="tag">项目全流程管理</span>
+                        <span class="tag">跨部门协同推进</span>
+                        <span class="tag">标杆案例沉淀与复制</span>
+                    </div>
+                </div>
+                <div class="cap-layer cap-layer--foundation">
+                    <div class="cap-label">根基</div>
+                    <div class="cap-tags">
+                        <span class="tag">财务分析 · 成本与ROI量化</span>
+                        <span class="tag">增长营销 · 数据驱动获客</span>
+                        <span class="tag">供应链 · 端到端链路</span>
+                        <span class="tag">AI · 能力边界判断</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Nav -->
+<nav class="nav">
+    <div class="container nav-inner">
+        <a href="#about">个人简介</a>
+        <a href="#composite">复合背景</a>
+        <a href="#skills">专业能力</a>
+        <a href="#experience">工作经历</a>
+        <a href="#projects">项目经历</a>
+        <a href="#education">教育背景</a>
+    </div>
+</nav>
+
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <h2 class="section-title fade-up">个人简介 <span>ABOUT ME</span></h2>
+        <div class="glass about-card fade-up">
+            <p>从财务分析到增长营销，从供应链运营到 AI 方案落地——<strong>8年跨领域实战形成的复合视角</strong>，让我能从商业价值出发设计 AI 解决方案，而非为技术而技术。现任顺丰科技行业科技中心解决方案顾问，主导多个公司级 AI + 行业项目的方案设计与交付落地，累计推动科技创收超千万。</p>
+            <p>核心能力在于 <strong>深度理解业务 + 精准判断 AI 能力边界</strong>：基于 Claude、GPT-4、Dify 等主流平台，在智能下单、智能巡检、智能分单、流程自动化等场景完成从 PoC 验证到生产落地的全流程。同时精通供应链核心系统架构与算法应用（预测补货、路径规划、仓网优化）。曾在调研中发现客户数据治理基础薄弱，主动建议先完成数据标准化再引入模型能力，避免无效投入。</p>
+            <p>习惯 <strong>独立完成业务调研并输出技术团队可执行的 BRD/PRD</strong>，能与客户业务负责人直接对话、建立信任，同时让产研团队拿到明确的需求边界与验收标准。曾服务星*克、瑞*、伊*等知名企业及国央企，在零售、制造、生命科学、餐饮连锁、政务等多行业积累了丰富的 AI 应用与数字化转型实战经验。英文可作为工作语言。</p>
+        </div>
+    </div>
+</section>
+
+<!-- Composite Background -->
+<section id="composite">
+    <div class="container">
+        <h2 class="section-title fade-up">复合背景优势 <span>COMPOSITE EDGE</span></h2>
+        <div class="composite-grid">
+            <div class="glass composite-card fade-up">
+                <div class="composite-icon">📊</div>
+                <div class="composite-title">财务思维</div>
+                <div class="composite-from">会计审计本科 · MBA</div>
+                <div class="composite-value">成本结构拆解<br>ROI 量化论证<br>商业可行性判断</div>
+            </div>
+            <div class="glass composite-card fade-up">
+                <div class="composite-icon">🚀</div>
+                <div class="composite-title">增长营销</div>
+                <div class="composite-from">ofo · 货拉拉 B2B</div>
+                <div class="composite-value">数据驱动获客<br>用户增长策略<br>客户心理洞察</div>
+            </div>
+            <div class="glass composite-card fade-up">
+                <div class="composite-icon">🔗</div>
+                <div class="composite-title">供应链深耕</div>
+                <div class="composite-from">顺丰科技 · 算法应用</div>
+                <div class="composite-value">端到端链路理解<br>预测/补货/路径规划<br>仓网优化实战</div>
+            </div>
+            <div class="glass composite-card fade-up">
+                <div class="composite-icon">🤖</div>
+                <div class="composite-title">AI 能力整合</div>
+                <div class="composite-from">LLM · Agent · RAG</div>
+                <div class="composite-value">AI 边界判断<br>PoC 验证与选型<br>方案设计到落地</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+    <div class="container">
+        <h2 class="section-title fade-up">专业能力 <span>EXPERTISE</span></h2>
+        <div class="skills-grid">
+            <div class="glass skill-card fade-up">
+                <h3>🤖 AI 应用设计与落地</h3>
+                <div class="skill-items">
+                    <span class="skill-item">Claude / GPT-4 / 文心 / 通义</span>
+                    <span class="skill-item">Dify（Agent 编排与 PoC 验证）</span>
+                    <span class="skill-item">RAG 方案架构与适用性评估</span>
+                    <span class="skill-item">Prompt Engineering</span>
+                    <span class="skill-item">AI 能力边界判断与场景筛选</span>
+                    <span class="skill-item">PoC 验证与业务价值评估</span>
+                </div>
+            </div>
+            <div class="glass skill-card fade-up">
+                <h3>🔍 业务理解与行业洞察</h3>
+                <div class="skill-items">
+                    <span class="skill-item">多行业业务流程诊断</span>
+                    <span class="skill-item">客户痛点识别与需求转化</span>
+                    <span class="skill-item">业务目标与成功标准定义</span>
+                    <span class="skill-item">行业产业链分析</span>
+                    <span class="skill-item">AI 适用场景筛选</span>
+                </div>
+            </div>
+            <div class="glass skill-card fade-up">
+                <h3>🚀 客户交付与项目推进</h3>
+                <div class="skill-items">
+                    <span class="skill-item">端到端项目交付管理</span>
+                    <span class="skill-item">跨部门资源协调</span>
+                    <span class="skill-item">客户高层沟通与信任建立</span>
+                    <span class="skill-item">不确定条件下推动落地</span>
+                    <span class="skill-item">标杆案例沉淀与规模化复制</span>
+                </div>
+            </div>
+            <div class="glass skill-card fade-up">
+                <h3>📐 解决方案架构</h3>
+                <div class="skill-items">
+                    <span class="skill-item">AI + 业务综合方案设计</span>
+                    <span class="skill-item">系统蓝图与产品选型</span>
+                    <span class="skill-item">BRD / PRD 交付</span>
+                    <span class="skill-item">Figma / Axure 原型设计</span>
+                    <span class="skill-item">定制化方案与竞标支持</span>
+                </div>
+            </div>
+            <div class="glass skill-card fade-up">
+                <h3>⚙️ 供应链与算法应用</h3>
+                <div class="skill-items">
+                    <span class="skill-item">预测补货 / 智能补货</span>
+                    <span class="skill-item">路径规划算法</span>
+                    <span class="skill-item">仓网规划与选址</span>
+                    <span class="skill-item">S&OP</span>
+                    <span class="skill-item">OMS/WMS/TMS</span>
+                </div>
+            </div>
+            <div class="glass skill-card fade-up">
+                <h3>📊 数据分析与数字化咨询</h3>
+                <div class="skill-items">
+                    <span class="skill-item">SQL / Python(Pandas)</span>
+                    <span class="skill-item">Tableau / PowerBI</span>
+                    <span class="skill-item">数据驱动决策</span>
+                    <span class="skill-item">数字化转型咨询</span>
+                    <span class="skill-item">流程优化与数据治理</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+    <div class="container">
+        <h2 class="section-title fade-up">工作经历 <span>EXPERIENCE</span></h2>
+        <div class="timeline">
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-company">顺丰科技有限公司</div>
+                        <div class="timeline-role">解决方案顾问 · 行业科技中心</div>
+                    </div>
+                    <span class="timeline-date">2022.04 - 至今</span>
+                </div>
+                <div class="timeline-desc">
+                    <p style="font-weight:600;margin-bottom:8px;color:var(--text);">负责 AI + 行业场景的解决方案设计与交付，独立完成从业务调研到 PRD 输出的全流程，让产研团队拿到可执行的需求文档：</p>
+                    <ul>
+                        <li><strong>AI 应用方案设计与落地：</strong>基于 Claude、GPT-4、Dify 等平台，主导智能下单、智能巡检、智能分单等场景的方案设计与 PoC 验证；根据客户数据合规要求与预算，选择 API 调用或私有化部署方案</li>
+                        <li><strong>业务需求转化：</strong>深入零售、制造、生命科学、政务等行业，通过多角色调研（业务负责人 → 一线执行）拆解需求，输出带有明确验收标准的 BRD/PRD</li>
+                        <li><strong>项目交付管理：</strong>作为项目 Owner 统筹蓝图设计与跨部门资源协调，建立周会 + 里程碑评审机制确保按质按期交付</li>
+                        <li><strong>行业深耕与规模化：</strong>年均跟进 200+ 条商机，通过产业链分析主动识别 AI 应用机会，沉淀可复制方案模板</li>
+                        <li><strong>算法类解决方案：</strong>主导仓网规划、销售预测、智能补货、路径规划等算法项目的需求分析与方案设计</li>
+                        <li><strong>内部产品反馈：</strong>将一线项目中发现的能力缺口反馈给产品团队，推动 3 项功能迭代上线</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot" style="border-color:var(--accent2);"></div>
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-company">深圳依时货拉拉科技有限公司</div>
+                        <div class="timeline-role">市场营销经理 · B2B业务线</div>
+                    </div>
+                    <span class="timeline-date">2019.08 - 2022.03</span>
+                </div>
+                <div class="timeline-desc">
+                    <ul>
+                        <li>负责 B2B 业务线增长策略制定与执行，运用 SaaS 工具与数据平台搭建线索全流程管理体系，实现数据驱动的精准获客</li>
+                        <li>主导小程序产品从0到1搭建与推广运营，协同产品、技术、运营团队跨部门推进</li>
+                        <li>完成京东、阿里系等头部企业 B2B 商务战略合作，具备复杂商务谈判与客户关系管理经验</li>
+                    </ul>
+                    <div class="achievements">
+                        <h4>核心业绩</h4>
+                        <ul>
+                            <li>数据驱动广告投放策略优化，业务线新客全年增长 120%</li>
+                            <li>小程序上线后业务新客日均增长 300%，GMV 增长 200%+</li>
+                            <li>搭建电销外呼项目管理流程，用户首单转化率提升 2PP</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-dot" style="border-color:#f59e0b;"></div>
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-company">ofo 小黄车</div>
+                        <div class="timeline-role">市场营销策划 · 华南片区</div>
+                    </div>
+                    <span class="timeline-date">2017.01 - 2018.12</span>
+                </div>
+                <div class="timeline-desc">
+                    <ul>
+                        <li>负责华南片区营销策划与执行，统筹线上线下活动及跨界商业合作</li>
+                        <li>洽谈中国银行、中国移动、京东等 100+ 企业合作，具备丰富的跨角色协作经验</li>
+                        <li>开拓线上产品商业化，完成 1000万 营收指标；个人 KPI 月均完成率达 180%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+    <div class="container">
+        <h2 class="section-title fade-up">项目经历（顺丰科技） <span>AI + INDUSTRY PROJECTS</span></h2>
+        <div class="project-grid">
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">生命科学领域 AI + 全链路数字化项目</div>
+                        <div class="project-role">核心成员 · 公司级项目</div>
+                    </div>
+                    <span class="timeline-date">2025.01 - 至今</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">LLM应用落地</span>
+                    <span class="project-tag">AI智能下单</span>
+                    <span class="project-tag">行业模型</span>
+                    <span class="project-tag">全链路数字化</span>
+                </div>
+                <div class="project-desc">
+                    <p><strong>背景：</strong>集团重点客户，从运输业务切入挖掘科技商机，为客户打造"销-产-运-服"全链路智能化方案。</p>
+                    <ul>
+                        <li>现场调研后识别出下单环节人工录入耗时且易错，判断该场景适合 LLM 意图识别，形成综合方案向决策层汇报</li>
+                        <li><strong>基于 GPT-4 + Dify 搭建智能下单 PoC</strong>，验证意图识别准确率达到业务可用标准后，推动正式开发上线；同步设计智能分单规则引擎</li>
+                        <li>主导生产系统从0到1规划设计，协同硬件供应商与 IT 团队推动跨部门落地</li>
+                        <li>基于单点客户深入研究行业产业链图谱，沉淀可复制的行业方案模板</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>助力集团业务份额提升至 100%，科技收入（软件+硬件）300万+</li>
+                        <li>通过 AI 方案签下二期合作协议，金额 500万+</li>
+                        <li>年运输金额 2000万+，未来科技收入潜力 1500万+</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">某国企 AI + 数智化平台项目</div>
+                        <div class="project-role">核心成员 · 中心级项目</div>
+                    </div>
+                    <span class="timeline-date">2025.06 - 至今</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">LLM方案设计</span>
+                    <span class="project-tag">AI下单/巡检</span>
+                    <span class="project-tag">智慧收运</span>
+                    <span class="project-tag">竞标交付</span>
+                </div>
+                <div class="project-desc">
+                    <p><strong>背景：</strong>围绕危废智慧收运管理平台需求，历时近1年沟通引导，经过多轮现场调研与方案汇报，最终竞标最高分签约。</p>
+                    <ul>
+                        <li>主导客户业务流程梳理，深入理解危废品行业的合规要求与运营痛点</li>
+                        <li><strong>基于 LLM 能力设计 AI 下单（自然语言转结构化工单）与 AI 巡检（图像+文本多模态）功能</strong>，嵌入业务流程提升运营效率</li>
+                        <li>在全业务场景方案中通过 AI 功能形成技术差异化，成为竞标核心加分项</li>
+                        <li>结合行业特性输出分阶段落地路线图，帮助客户 IT 团队明确每期交付范围与验收标准</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>竞标最高分签约，创收 200万+</li>
+                        <li>打造公司在危废品运营管理领域的首个 AI + 科技标杆案例</li>
+                        <li>方案具备行业复制性，拓展上下游场景能力</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">AI Agent 驱动的供应链诊断优化工具</div>
+                        <div class="project-role">项目经理</div>
+                    </div>
+                    <span class="timeline-date">2023 - 至今</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">AI Agent</span>
+                    <span class="project-tag">库存诊断</span>
+                    <span class="project-tag">网络优化</span>
+                    <span class="project-tag">智能诊断报告</span>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>主导设计基于 AI Agent 的供应链网络诊断与库存优化工具，通过 Dify 编排 Agent 工作流，实现从数据接入 → 现状分析 → 问题诊断 → 报告生成的自动化闭环</li>
+                        <li>Agent 自主调用数据分析与算法规划能力，对客户仓网结构、库存健康度进行智能诊断，输出可视化诊断报告与优化建议</li>
+                        <li>将工具推广至全国销售团队，赋能面客咨询、方案汇报、项目签约等场景，单次诊断从人工 2 天缩短至 10 分钟</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>推动上百家企业相关业务签约，增加业务收入千万级</li>
+                        <li>工具覆盖全国地区销售，成为标准化面客诊断工具</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">某咖啡头部品牌智能线路规划项目</div>
+                        <div class="project-role">项目 Owner · 公司级项目</div>
+                    </div>
+                    <span class="timeline-date">2024.12 - 至今</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">路径规划算法</span>
+                    <span class="project-tag">AI+物流</span>
+                    <span class="project-tag">PoC验证</span>
+                    <span class="project-tag">规模化复制</span>
+                </div>
+                <div class="project-desc">
+                    <p><strong>背景：</strong>客户运输依靠人工经验排线导致资源浪费，不同门店要求各异，高峰期临时需求无法即时响应。</p>
+                    <ul>
+                        <li>作为项目 Owner，主导全流程：业务调研 → 痛点诊断 → 算法适用性判断 → PoC 推进 → 结果验证</li>
+                        <li>深入理解客户业务目标与约束条件（时间窗、车型限制、门店优先级），将模糊需求转化为可量化的优化指标</li>
+                        <li>协同产研团队评估技术可行性，根据客户 IT 运维能力选择轻量化部署方案</li>
+                        <li>在交付过程中主动挖掘新业务机会，设计可复制至其他区域/客户的扩展方案</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>签约 100万+，预估每年运维收入 20万+</li>
+                        <li>方案高复制性，同类客户/不同区域可直接复制，预估年收益百万级</li>
+                        <li>帮助产品成功落地验证，形成标准化交付模式</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">广东省某国企智能预测补货项目</div>
+                        <div class="project-role">核心成员 · 公司级项目</div>
+                    </div>
+                    <span class="timeline-date">2024.08 - 2025.08</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">AI预测算法</span>
+                    <span class="project-tag">智能补货</span>
+                    <span class="project-tag">多角色沟通</span>
+                    <span class="project-tag">需求转化</span>
+                </div>
+                <div class="project-desc">
+                    <p><strong>背景：</strong>针对免税零售行业，搭建智能算法驱动的补货服务产品，助力客户运营决策智能化。</p>
+                    <ul>
+                        <li>多角色深度调研：分别与采购、IT、仓储物流、门店销售等部门总监/经理/专员沟通，理解不同角色的业务目标与痛点</li>
+                        <li>将多方需求整合为统一方案，覆盖采购数字化、门店补货效率、库存周转率优化等场景，输出带验收标准的 PRD</li>
+                        <li>使用 Figma 完成产品 Demo 设计（20+ 页详细原型），向不同层级客户分别汇报，获得高度认可</li>
+                        <li>评估客户现有数据质量后，建议分两期落地：一期基于规则引擎快速见效，二期引入预测模型提升精度</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>推动项目落地，完成近百万科技收入签约</li>
+                        <li>开拓免税零售行业 AI 预测补货标杆案例</li>
+                        <li>帮助客户实现端到端智能决策体验</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass project-card fade-up">
+                <div class="project-card-header">
+                    <div>
+                        <div class="project-name">某企业数字化转型咨询项目</div>
+                        <div class="project-role">项目经理</div>
+                    </div>
+                    <span class="timeline-date">2023 - 至今</span>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">数字化转型咨询</span>
+                    <span class="project-tag">高管访谈</span>
+                    <span class="project-tag">流程诊断</span>
+                    <span class="project-tag">数据治理</span>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>全方位走访调研，对话客户 CMO、CXO、CFO 及销售、供应链、采购团队，诊断业务现状与数字化成熟度</li>
+                        <li>通过数据挖掘与分析，识别端到端价值链中的真实问题与 AI/数字化改善机遇</li>
+                        <li>输出数字化转型顶层设计、流程优化建议及 AI 应用路线图</li>
+                    </ul>
+                </div>
+                <div class="project-result">
+                    <h4>项目成果</h4>
+                    <ul>
+                        <li>成功签约咨询项目，助力集团业务收入近百万</li>
+                        <li>帮助客户降低呆滞库存，企业经营成本降低 20%+</li>
+                        <li>助力客户生产、采购、销售端效率全面提升</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+    <div class="container">
+        <h2 class="section-title fade-up">教育背景 <span>EDUCATION</span></h2>
+        <div class="glass edu-card fade-up">
+            <div>
+                <div class="edu-school">哈尔滨工业大学（深圳）</div>
+                <div class="edu-major">工商管理硕士（MBA） · 硕士</div>
+            </div>
+            <span class="timeline-date">2020 - 2023</span>
+        </div>
+        <div class="glass edu-card fade-up">
+            <div>
+                <div class="edu-school">广东财经大学华商学院</div>
+                <div class="edu-major">会计与审计 · 本科</div>
+            </div>
+            <span class="timeline-date">2012 - 2016</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>许倩怡 · AI 业务解决方案专家</p>
+    </div>
+</footer>
+
+<script>
+// ===== Particle Background =====
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.5 + 0.1;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`;
+        ctx.fill();
+    }
+}
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function connectParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(6, 182, 212, ${0.08 * (1 - dist / 120)})`;
+                ctx.lineWidth = 0.5;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    connectParticles();
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ===== Scroll Animations =====
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ===== Nav =====
+document.querySelectorAll('.nav-inner a').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-inner a');
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id'); });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+</script>
+
+</body>
+</html>
